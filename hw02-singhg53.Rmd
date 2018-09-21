@@ -1,0 +1,32 @@
+---
+title: "hw02-singhg53"
+author: "Gurjot Singh"
+date: "20/09/2018"
+output: github_document
+---
+
+# Homework Assignment #2
+#### By: Gurjot Singh (singhg53)
+
+Hello! Today we will be exploring a the dataset known as `gapminder`
+
+For those who have not yet downloaded the dataset you can do so by installing the package by the function:
+
+`install.packages("gapminder")`
+
+Now since you have downloaded the dataset lets load it using the `library` function
+
+```{r}
+library(gapminder)
+```
+
+Let's also install and load the tidyverse package
+
+`install.packages("tidyverse")`
+
+```{r}
+library(tidyverse)
+```
+
+
+The cool thing about the tidyverse package is that includes different functions that could be used like `ggplot2` and `dplyr`
