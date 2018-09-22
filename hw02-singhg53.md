@@ -43,3 +43,57 @@ library(tidyverse)
 
 The cool thing about the tidyverse package is that includes different
 functions that could be used like `ggplot2` and `dplyr`
+
+First let’s check if the dataset is a vector:
+
+``` r
+is.atomic(gapminder) || is.list(gapminder)
+```
+
+    ## [1] TRUE
+
+Now let’s check what type of vector
+
+``` r
+typeof(gapminder)
+```
+
+    ## [1] "list"
+
+This shows us that the dataset is a list. But it is important to test if
+a dataset is a dataframe because a dataframe are lists as well.
+
+``` r
+is.data.frame(gapminder)
+```
+
+    ## [1] TRUE
+
+This example shows good dimensionality of the dataset it is a vector-\>
+list (1-dimension)-\> data frame (2-dimension)
+
+Let’s just double check if the dataset is a matrix or array:
+
+``` r
+is.matrix(gapminder)
+```
+
+    ## [1] FALSE
+
+``` r
+is.array(gapminder)
+```
+
+    ## [1] FALSE
+
+``` r
+class(gapminder)
+```
+
+    ## [1] "tbl_df"     "tbl"        "data.frame"
+
+``` r
+nrow(gapminder)
+```
+
+    ## [1] 1704
