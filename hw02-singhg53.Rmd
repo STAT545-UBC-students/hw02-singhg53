@@ -6,23 +6,23 @@ output: github_document
 ---
 
 # Homework Assignment #2
-#### By: Gurjot Singh (singhg53)
+By: Gurjot Singh (singhg53)
+
+Hello! Today we will be exploring a the dataset known as `gapminder`.
 
 ## Smell test the data
-
-Hello! Today we will be exploring a the dataset known as `gapminder`
 
 For those who have not yet downloaded the dataset you can do so by installing the package by the function:
 
 `install.packages("gapminder")`
 
-Now since you have downloaded the dataset lets load it using the `library` function
+Now since you have downloaded the dataset lets load it using the `library` function:
 
 ```{r}
 library(gapminder)
 ```
 
-Let's also install and load the tidyverse package
+Let's also install and load the tidyverse package:
 
 `install.packages("tidyverse")`
 
@@ -30,20 +30,17 @@ Let's also install and load the tidyverse package
 library(tidyverse)
 ```
 
-
 The cool thing about the tidyverse package is that includes different functions that could be used like `ggplot2` and `dplyr`
 
-First let's check if the dataset is a vector:
+**Question: Is `gapminder` a data frame, a matrix, a vector, a list?**
 
-```{r}
-is.atomic(gapminder) || is.list(gapminder)
-```
-
-Now let's check what type of vector
+First let's check what type of dataset is `gapminder` using the `typeof` function:
 
 ```{r}
 typeof(gapminder)
 ```
+
+`gapminder` is found to be a list.
 
 This shows us that the dataset is a list. But it is important to test if a dataset is a dataframe because a dataframe are lists as well.
 
@@ -51,15 +48,18 @@ This shows us that the dataset is a list. But it is important to test if a datas
 is.data.frame(gapminder)
 ```
 
-This example shows good dimensionality of the dataset it is a vector-> list (1-dimension)-> data frame (2-dimension)
+Since this is true we can establish that the dataset is indeed a data frame.
 
-
-Let's just double check if the dataset is a matrix or array:
+A cool way to check if the dataset is a martix or an array is using the functions below.
 
 ```{r}
 is.matrix(gapminder)
 is.array(gapminder)
 ```
+
+Both of them come out false, as expected.
+
+**Question: What is its class?**
 
 The class of the dataset can be found by using the `class` function
 
@@ -67,17 +67,29 @@ The class of the dataset can be found by using the `class` function
 class(gapminder)
 ```
 
-The columns can be found using the `ncol` function
+This is another way we could find that `gapminder` is a data frame.
+
+**Question: How many variables/columns?**
+
+The number of columns can be found using the `ncol` function:
 
 ```{r}
 ncol(gapminder)
 ```
 
-Let's check how many rows are in the data set using the `nrow` function
+This shows us that there are six columns in the dataset.
+
+**Question: How many rows/observations?**
+
+Let's check how many rows are in the data set using the `nrow` function:
 
 ```{r}
 nrow(gapminder)
 ```
+
+We can conclude there are 1704 rows in this dataset.
+
+**Question: Can you get these facts about “extent” or “size” in more than one way? Can you imagine different functions being useful in different contexts?**
 
 We can use the `dim` function to tell us the size or the exent of the data
 
@@ -85,12 +97,17 @@ We can use the `dim` function to tell us the size or the exent of the data
 dim(gapminder)
 ```
 
+The `dim` function could give us the number of rows and columns using one function, where the number of rows come first and the number of columns comes second.
+
+**Question: What data type is each variable?**
+
 The structure of the dataset can also tell us about the extent or size of the data and it could tell us what data type is each variable
 
 ```{r}
 str(gapminder)
 ```
 
+The data type of each variable has been summarized in the table below:
 
 |    **Variable**      |    **Data Type** |
 |----------------------|------------------|
@@ -103,11 +120,23 @@ str(gapminder)
 
 # Explore Individual Variables
 
+Question: Pick **at least** one categorical variable and at least one quantitative
+variable to explore.
+
+  - What are possible values (or range, whichever is appropriate) of
+    each variable?
+  - What values are typical? What’s the spread? What’s the distribution?
+    Etc., tailored to the variable at hand.
+  - Feel free to use summary stats, tables, figures. We’re NOT expecting
+    high production value (yet).
+
 Let's first explore the continent variable, which is categorical
 
 ```{r}
 summary(gapminder$continent)
 ```
+
+Using the `summary` function we could see that the continent dataset has five possible variables: Africa, Americas, Asia, Europe, and Oceania. In addition, the `summary` function it tells us information about the values of each variable. Africa has 624 observations (rows of information) versus Americas has 300 observations.
 
 Now let's look at a numerical variable such as lifeExp
 
@@ -115,9 +144,39 @@ Now let's look at a numerical variable such as lifeExp
 summary(gapminder$lifeExp)
 ```
 
+Again, the `summary` function is very powerful because it can provide us with a great deal of information. Using this function we have found the spread of the data
+
+
+
 Let's do another cateogrical variable for fun, such as, continent
 
 ```{r}
 summary(gapminder$continent)
 ```
+
+
+
+
+
+
+
+Vectorization, recycling
+
+look at the years
+
+```{r}
+filter(gapminder, country == "Rwanda" & country == "Afghanistan")
+```
+
+
+
+
+
+
+
+
+```{r}
+filter(gapminder, country == c("Rwanda"))
+```
+
 
