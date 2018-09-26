@@ -236,8 +236,8 @@ Now let's do something that hasn't been done in class yet. We are going to creat
 
 ```{r}
 ggplot(gapminder, aes(lifeExp, gdpPercap)) +
-  geom_point(alpha = 0.5) + 
-  geom_density_2d() + 
+  geom_point(colour="blue", alpha = 0.5) + 
+  geom_density_2d(colour="red") + 
   scale_y_log10()
 ```
 
