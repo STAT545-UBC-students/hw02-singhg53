@@ -46,7 +46,7 @@ library(tidyverse)
 The cool thing about the tidyverse package is that includes different
 functions that could be used like `ggplot2` and `dplyr`
 
-**Question: Is `gapminder` a data.frame, a matrix, a vector, a list?**
+**Question: Is `gapminder` a data frame, a matrix, a vector, a list?**
 
 First let’s check what type of dataset is `gapminder` using the `typeof`
 function:
@@ -88,6 +88,8 @@ is.array(gapminder)
 
 Both of them come out false, as expected.
 
+**Question: What is its class?**
+
 The class of the dataset can be found by using the `class` function
 
 ``` r
@@ -97,6 +99,8 @@ class(gapminder)
     ## [1] "tbl_df"     "tbl"        "data.frame"
 
 This is another way we could find that `gapminder` is a data frame.
+
+**Question: How many variables/columns?**
 
 The number of columns can be found using the `ncol` function:
 
@@ -108,6 +112,8 @@ ncol(gapminder)
 
 This shows us that there are six columns in the dataset.
 
+**Question: How many rows/observations?**
+
 Let’s check how many rows are in the data set using the `nrow` function:
 
 ``` r
@@ -118,6 +124,10 @@ nrow(gapminder)
 
 We can conclude there are 1704 rows in this dataset.
 
+**Question: Can you get these facts about “extent” or “size” in more
+than one way? Can you imagine different functions being useful in
+different contexts?**
+
 We can use the `dim` function to tell us the size or the exent of the
 data
 
@@ -126,6 +136,12 @@ dim(gapminder)
 ```
 
     ## [1] 1704    6
+
+The `dim` function could give us the number of rows and columns using
+one function, where the number of rows come first and the number of
+columns comes second.
+
+**Question: What data type is each variable?**
 
 The structure of the dataset can also tell us about the extent or size
 of the data and it could tell us what data type is each
@@ -143,16 +159,28 @@ str(gapminder)
     ##  $ pop      : int  8425333 9240934 10267083 11537966 13079460 14880372 12881816 13867957 16317921 22227415 ...
     ##  $ gdpPercap: num  779 821 853 836 740 ...
 
+The data type of each variable has been summarized in the table below:
+
 | **Variable** | **Data Type** |
 | ------------ | ------------- |
 | country      | Factor        |
-| contient     | Factor        |
+| continent    | Factor        |
 | Year         | Integer       |
 | lifeExp      | Number        |
 | pop          | Integer       |
 | gdpPercap    | Number        |
 
 # Explore Individual Variables
+
+Question: Pick **at least** one categorical variable and at least one
+quantitative variable to explore.
+
+  - What are possible values (or range, whichever is appropriate) of
+    each variable?
+  - What values are typical? What’s the spread? What’s the distribution?
+    Etc., tailored to the variable at hand.
+  - Feel free to use summary stats, tables, figures. We’re NOT expecting
+    high production value (yet).
 
 Let’s first explore the continent variable, which is categorical
 
@@ -163,6 +191,12 @@ summary(gapminder$continent)
     ##   Africa Americas     Asia   Europe  Oceania 
     ##      624      300      396      360       24
 
+Using the `summary` function we could see that the continent dataset has
+five possible variables: Africa, Americas, Asia, Europe, and Oceania. In
+addition, the `summary` function it tells us information about the
+values of each variable. Africa has 624 observations (rows of
+information) versus Americas has 300 observations.
+
 Now let’s look at a numerical variable such as lifeExp
 
 ``` r
@@ -172,14 +206,47 @@ summary(gapminder$lifeExp)
     ##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
     ##   23.60   48.20   60.71   59.47   70.85   82.60
 
-Let’s do another cateogrical variable for fun, such as, continent
+Again, the `summary` function is very powerful because it can provide us
+with a great deal of information. Using this function we have found the
+spread of the data giving the maximum (82.60), the minimum (23.60), the
+median (60.71), and the mean (59.47).
+
+Let’s do another numerical variable for fun to go above and beyond, such
+as, gdpPercap
 
 ``` r
-summary(gapminder$continent)
+summary(gapminder$gdpPercap)
 ```
 
-    ##   Africa Americas     Asia   Europe  Oceania 
-    ##      624      300      396      360       24
+    ##     Min.  1st Qu.   Median     Mean  3rd Qu.     Max. 
+    ##    241.2   1202.1   3531.8   7215.3   9325.5 113523.1
+
+Using this function we have found the spread of the data giving the
+maximum (113523.1), the minimum (241.2), the median (3531.8), and the
+mean (7215.3).
+
+## Explore various plot types
+
+**Question: Make a few plots, probably of the same variable you chose to
+characterize numerically. You can use the plot types we went over in
+class (cm006) to get an idea of what you’d like to make. Try to explore
+more than one plot type. Just as an example**\*\* of what I mean:\*\*
+
+  - A scatterplot of two quantitative variables.
+  - A plot of one quantitative variable. Maybe a histogram or
+    densityplot or frequency polygon.
+  - A plot of one quantitative variable and one categorical. Maybe
+    boxplots for several continents or countries.
+
+You don’t have to use all the data in every plot\! It’s fine to filter
+down to one country or small handful of countries.
+
+Use `filter()`, `select()` and `%>%`
+
+Use `filter()` to create data subsets that you want to plot.
+
+Practice piping together `filter()` and `select()`. Possibly even piping
+into `ggplot()`.
 
 Vectorization, recycling
 

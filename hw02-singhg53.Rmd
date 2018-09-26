@@ -112,8 +112,8 @@ The data type of each variable has been summarized in the table below:
 |    **Variable**      |    **Data Type** |
 |----------------------|------------------|
 |       country        |     Factor       |
-|       contient       |     Factor       |
-|        Year          |     Integer      |
+|       continent      |     Factor       |
+|        year          |     Integer      |
 |       lifeExp        |     Number       |
 |        pop           |    Integer       |
 |       gdpPercap      |     Number       |
@@ -144,15 +144,98 @@ Now let's look at a numerical variable such as lifeExp
 summary(gapminder$lifeExp)
 ```
 
-Again, the `summary` function is very powerful because it can provide us with a great deal of information. Using this function we have found the spread of the data
+Again, the `summary` function is very powerful because it can provide us with a great deal of information. Using this function we have found the spread of the data giving the maximum (82.60), the minimum (23.60), the median (60.71), and the mean (59.47).
 
-
-
-Let's do another cateogrical variable for fun, such as, continent
+Let's do another numerical variable for fun to go above and beyond, such as, gdpPercap
 
 ```{r}
-summary(gapminder$continent)
+summary(gapminder$gdpPercap)
 ```
+
+Using this function we have found the spread of the data giving the maximum (113523.1), the minimum (241.2), the median (3531.8), and the mean (7215.3).
+
+## Explore various plot types
+
+Question: Make a few plots, probably of the same variable you chose to
+characterize numerically. You can use the plot types we went over in
+class (cm006) to get an idea of what you’d like to make. Try to explore
+more than one plot type. Just as an example of what I mean:
+
+  - A scatterplot of two quantitative variables.
+  - A plot of one quantitative variable. Maybe a histogram or
+    densityplot or frequency polygon.
+  - A plot of one quantitative variable and one categorical. Maybe
+    boxplots for several continents or countries.
+
+You don’t have to use all the data in every plot\! It’s fine to filter
+down to one country or small handful of countries.
+
+Use `filter()`, `select()` and `%>%`
+
+Use `filter()` to create data subsets that you want to plot.
+
+Practice piping together `filter()` and `select()`. Possibly even piping
+into `ggplot()`.
+
+**Question: A scatterplot of two quantitative variables.**
+
+First let's make a scatterplot of two quantitative variables. I shall use lifeExp and gdpPercap.
+
+```{r}
+ggplot(gapminder, aes(gdpPercap, lifeExp)) +
+  scale_x_log10() +
+  geom_point(colour = "blue", alpha=0.2)
+```
+
+Let's take this a step further and use the pipe function and the `filter` function.
+
+```{r}
+gapminder %>%
+  filter(country == "Canada") %>%
+  ggplot(aes(gdpPercap, lifeExp)) +
+  scale_x_log10() +
+  geom_point(colour = "blue", fill = "blue")
+```
+
+**Question: A plot of one quantitative variable. Maybe a histogram or densityplot or frequency polygon.**
+
+Let's use a different country, for example, Mexico, and plot a histogram
+
+```{r}
+gapminder %>%
+  filter(country == "Mexico") %>%
+  ggplot(aes(lifeExp)) +
+  geom_histogram(colour = "red", fill = "orange", bins = 10)
+```
+
+Let's go above and beyond and create a density plot using Canada and observing lifeExp.
+
+```{r}
+gapminder %>%
+  filter(country == "Canada") %>%
+  ggplot(aes(lifeExp)) +
+  geom_density(colour = "red")
+```
+
+Now let's do something that hasn't been done in class yet. We are going to create a 2d density plot using variables of!
+
+```{r}
+ggplot(gapminder, aes(gdpPercap, lifeExp)) +
+  geom_point(alpha = 0.5) + 
+  geom_density_2d() + 
+  scale_x_log10()
+  theme(panel.background = element_rect(fill = '#ffffff')) + 
+  ggtitle("2D density plot with scatterplot overlay")
+```
+
+
+
+```{r}
+ggplot(gapminder, aes(lifeExp))+
+  geom_histogram(bins = 30)
+```
+
+
 
 
 
