@@ -130,13 +130,13 @@ variable to explore.
   - Feel free to use summary stats, tables, figures. We’re NOT expecting
     high production value (yet).
 
-Let's first explore the continent variable, which is categorical
+Let's first explore the continent variable, which is categorical:
 
 ```{r}
 summary(gapminder$continent)
 ```
 
-Using the `summary` function we could see that the continent dataset has five possible variables: Africa, Americas, Asia, Europe, and Oceania. In addition, the `summary` function it tells us information about the values of each variable. Africa has 624 observations (rows of information) versus Americas has 300 observations.
+Using the `summary` function we could see that the continent dataset has five possible variables: Africa, Americas, Asia, Europe, and Oceania. In addition, the `summary` function it tells us information about the values of each variable. Africa has 624 observations (rows of information) versus the Americas which have 300 observations.
 
 Now let's look at a numerical variable such as lifeExp
 
@@ -187,19 +187,20 @@ ggplot(gapminder, aes(gdpPercap, lifeExp)) +
   geom_point(colour = "blue", alpha=0.2)
 ```
 
-Let's take this a step further and use the pipe function and the `filter` function.
+I have changed the y-axis to make it a logarithmic scale for better visualization and added some colour.
+
+Let's take this a step further and use the `pipe` function and the `filter` function.
 
 ```{r}
 gapminder %>%
   filter(country == "Canada") %>%
   ggplot(aes(gdpPercap, lifeExp)) +
-  scale_x_log10() +
   geom_point(colour = "blue", fill = "blue")
 ```
 
 **Question: A plot of one quantitative variable. Maybe a histogram or densityplot or frequency polygon.**
 
-Let's use a different country, for example, Mexico, and plot a histogram
+Let's use a different country, for example, Mexico, and plot a histogram of the lifeExp:
 
 ```{r}
 gapminder %>%
@@ -208,7 +209,7 @@ gapminder %>%
   geom_histogram(colour = "red", fill = "orange", bins = 10)
 ```
 
-Let's go above and beyond and create a density plot using Canada and observing lifeExp.
+Let's go above and beyond and create a density plot for a different country, such as, Canada and observing lifeExp.
 
 ```{r}
 gapminder %>%
@@ -217,49 +218,49 @@ gapminder %>%
   geom_density(colour = "red")
 ```
 
-Now let's do something that hasn't been done in class yet. We are going to create a 2d density plot using variables of!
+**A plot of one quantitative variable and one categorical. Maybe boxplots for several continents or countries.**
+
+In this plot we filtered out years greater than 2000 and plotted the continent with the lifeExp using a violin boxplot. This type of boxplot gives great information regarding the overall distribution of the data.
 
 ```{r}
-ggplot(gapminder, aes(gdpPercap, lifeExp)) +
+gapminder %>% 
+  filter(year > 2000) %>% 
+  ggplot(aes(continent, lifeExp)) +
+  geom_boxplot() +
+  geom_violin(width = 1, fill = "orange", alpha=0.5)
+```
+
+**A little something extra**
+
+Now let's do something that hasn't been done in class yet. We are going to create a 2d density plot using variables of lifeExp and gdpPercap!
+
+```{r}
+ggplot(gapminder, aes(lifeExp, gdpPercap)) +
   geom_point(alpha = 0.5) + 
   geom_density_2d() + 
-  scale_x_log10()
-  theme(panel.background = element_rect(fill = '#ffffff')) + 
-  ggtitle("2D density plot with scatterplot overlay")
+  scale_y_log10()
 ```
 
+## Resources
 
+[Here](http://genomicsclass.github.io/book/pages/dplyr_tutorial.html) is a site I used to help create the plots. It is a great resource!
+
+## But I want to do more\!
+
+*For people who want to take things further.*
+
+Evaluate this code and describe the result. Presumably the analyst’s
+intent was to get the data for Rwanda and Afghanistan. Did they succeed?
+Why or why not? If not, what is the correct way to do this?
+
+    filter(gapminder, country == c("Rwanda", "Afghanistan"))
+
+The above would be the incorrect way of filtering out information for the countries. Using the technique above you loose a great deal of information, becuase the information is known to be "recycled".
+
+To circumvent this problem we could do the following operation:
 
 ```{r}
-ggplot(gapminder, aes(lifeExp))+
-  geom_histogram(bins = 30)
+filter(gapminder, country == "Rwanda" | country == "Afghanistan")
 ```
 
-
-
-
-
-
-
-
-
-Vectorization, recycling
-
-look at the years
-
-```{r}
-filter(gapminder, country == "Rwanda" & country == "Afghanistan")
-```
-
-
-
-
-
-
-
-
-```{r}
-filter(gapminder, country == c("Rwanda"))
-```
-
-
+I hope you enjoyed going through my homework assignment!

@@ -165,7 +165,7 @@ The data type of each variable has been summarized in the table below:
 | ------------ | ------------- |
 | country      | Factor        |
 | continent    | Factor        |
-| Year         | Integer       |
+| year         | Integer       |
 | lifeExp      | Number        |
 | pop          | Integer       |
 | gdpPercap    | Number        |
@@ -182,7 +182,7 @@ quantitative variable to explore.
   - Feel free to use summary stats, tables, figures. We’re NOT expecting
     high production value (yet).
 
-Let’s first explore the continent variable, which is categorical
+Let’s first explore the continent variable, which is categorical:
 
 ``` r
 summary(gapminder$continent)
@@ -195,7 +195,7 @@ Using the `summary` function we could see that the continent dataset has
 five possible variables: Africa, Americas, Asia, Europe, and Oceania. In
 addition, the `summary` function it tells us information about the
 values of each variable. Africa has 624 observations (rows of
-information) versus Americas has 300 observations.
+information) versus the Americas which have 300 observations.
 
 Now let’s look at a numerical variable such as lifeExp
 
@@ -227,10 +227,10 @@ mean (7215.3).
 
 ## Explore various plot types
 
-**Question: Make a few plots, probably of the same variable you chose to
+Question: Make a few plots, probably of the same variable you chose to
 characterize numerically. You can use the plot types we went over in
 class (cm006) to get an idea of what you’d like to make. Try to explore
-more than one plot type. Just as an example**\*\* of what I mean:\*\*
+more than one plot type. Just as an example of what I mean:
 
   - A scatterplot of two quantitative variables.
   - A plot of one quantitative variable. Maybe a histogram or
@@ -248,34 +248,128 @@ Use `filter()` to create data subsets that you want to plot.
 Practice piping together `filter()` and `select()`. Possibly even piping
 into `ggplot()`.
 
-Vectorization, recycling
+**Question: A scatterplot of two quantitative variables.**
 
-look at the years
-
-``` r
-filter(gapminder, country == "Rwanda" & country == "Afghanistan")
-```
-
-    ## # A tibble: 0 x 6
-    ## # ... with 6 variables: country <fct>, continent <fct>, year <int>,
-    ## #   lifeExp <dbl>, pop <int>, gdpPercap <dbl>
+First let’s make a scatterplot of two quantitative variables. I shall
+use lifeExp and gdpPercap.
 
 ``` r
-filter(gapminder, country == c("Rwanda"))
+ggplot(gapminder, aes(gdpPercap, lifeExp)) +
+  scale_x_log10() +
+  geom_point(colour = "blue", alpha=0.2)
 ```
 
-    ## # A tibble: 12 x 6
-    ##    country continent  year lifeExp     pop gdpPercap
-    ##    <fct>   <fct>     <int>   <dbl>   <int>     <dbl>
-    ##  1 Rwanda  Africa     1952    40   2534927      493.
-    ##  2 Rwanda  Africa     1957    41.5 2822082      540.
-    ##  3 Rwanda  Africa     1962    43   3051242      597.
-    ##  4 Rwanda  Africa     1967    44.1 3451079      511.
-    ##  5 Rwanda  Africa     1972    44.6 3992121      591.
-    ##  6 Rwanda  Africa     1977    45   4657072      670.
-    ##  7 Rwanda  Africa     1982    46.2 5507565      882.
-    ##  8 Rwanda  Africa     1987    44.0 6349365      848.
-    ##  9 Rwanda  Africa     1992    23.6 7290203      737.
-    ## 10 Rwanda  Africa     1997    36.1 7212583      590.
-    ## 11 Rwanda  Africa     2002    43.4 7852401      786.
-    ## 12 Rwanda  Africa     2007    46.2 8860588      863.
+![](hw02-singhg53_files/figure-gfm/unnamed-chunk-14-1.png)<!-- -->
+
+I have changed the y-axis to make it a logarithmic scale for better
+visualization and added some colour.
+
+Let’s take this a step further and use the `pipe` function and the
+`filter` function.
+
+``` r
+gapminder %>%
+  filter(country == "Canada") %>%
+  ggplot(aes(gdpPercap, lifeExp)) +
+  geom_point(colour = "blue", fill = "blue")
+```
+
+![](hw02-singhg53_files/figure-gfm/unnamed-chunk-15-1.png)<!-- -->
+
+**Question: A plot of one quantitative variable. Maybe a histogram or
+densityplot or frequency polygon.**
+
+Let’s use a different country, for example, Mexico, and plot a histogram
+of the lifeExp:
+
+``` r
+gapminder %>%
+  filter(country == "Mexico") %>%
+  ggplot(aes(lifeExp)) +
+  geom_histogram(colour = "red", fill = "orange", bins = 10)
+```
+
+![](hw02-singhg53_files/figure-gfm/unnamed-chunk-16-1.png)<!-- -->
+
+Let’s go above and beyond and create a density plot for a different
+country, such as, Canada and observing lifeExp.
+
+``` r
+gapminder %>%
+  filter(country == "Canada") %>%
+  ggplot(aes(lifeExp)) +
+  geom_density(colour = "red")
+```
+
+![](hw02-singhg53_files/figure-gfm/unnamed-chunk-17-1.png)<!-- -->
+
+**A plot of one quantitative variable and one categorical. Maybe
+boxplots for several continents or countries.**
+
+In this plot we filtered out years greater than 2000 and plotted the
+continent with the lifeExp using a violin boxplot. This type of boxplot
+gives great information regarding the overall distribution of the data.
+
+``` r
+gapminder %>% 
+  filter(year > 2000) %>% 
+  ggplot(aes(continent, lifeExp)) +
+  geom_boxplot() +
+  geom_violin(width = 1, fill = "orange", alpha=0.5)
+```
+
+![](hw02-singhg53_files/figure-gfm/unnamed-chunk-18-1.png)<!-- -->
+
+**A little something extra**
+
+Now let’s do something that hasn’t been done in class yet. We are going
+to create a 2d density plot using variables of lifeExp and gdpPercap\!
+
+``` r
+ggplot(gapminder, aes(lifeExp, gdpPercap)) +
+  geom_point(alpha = 0.5) + 
+  geom_density_2d() + 
+  scale_y_log10()
+```
+
+![](hw02-singhg53_files/figure-gfm/unnamed-chunk-19-1.png)<!-- -->
+
+[Here](http://genomicsclass.github.io/book/pages/dplyr_tutorial.html) is
+a site I used to help create the plots. It is a great resource\!
+
+## But I want to do more\!
+
+*For people who want to take things further.*
+
+Evaluate this code and describe the result. Presumably the analyst’s
+intent was to get the data for Rwanda and Afghanistan. Did they succeed?
+Why or why not? If not, what is the correct way to do this?
+
+    filter(gapminder, country == c("Rwanda", "Afghanistan"))
+
+The above would be the incorrect way of filtering out information for
+the countries. Using the technique above you loose a great deal of
+information, becuase the information is known to be “recycled”.
+
+To circumvent this problem we could do the following operation:
+
+``` r
+filter(gapminder, country == "Rwanda" | country == "Afghanistan")
+```
+
+    ## # A tibble: 24 x 6
+    ##    country     continent  year lifeExp      pop gdpPercap
+    ##    <fct>       <fct>     <int>   <dbl>    <int>     <dbl>
+    ##  1 Afghanistan Asia       1952    28.8  8425333      779.
+    ##  2 Afghanistan Asia       1957    30.3  9240934      821.
+    ##  3 Afghanistan Asia       1962    32.0 10267083      853.
+    ##  4 Afghanistan Asia       1967    34.0 11537966      836.
+    ##  5 Afghanistan Asia       1972    36.1 13079460      740.
+    ##  6 Afghanistan Asia       1977    38.4 14880372      786.
+    ##  7 Afghanistan Asia       1982    39.9 12881816      978.
+    ##  8 Afghanistan Asia       1987    40.8 13867957      852.
+    ##  9 Afghanistan Asia       1992    41.7 16317921      649.
+    ## 10 Afghanistan Asia       1997    41.8 22227415      635.
+    ## # ... with 14 more rows
+
+I hope you enjoyed going through my homework assignment\!
