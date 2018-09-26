@@ -241,6 +241,8 @@ ggplot(gapminder, aes(lifeExp, gdpPercap)) +
   scale_y_log10()
 ```
 
+From these exercises we have learned how to use the `pipe` function, `filter` function, and many more!
+
 ## Resources
 
 [Here](http://genomicsclass.github.io/book/pages/dplyr_tutorial.html) is a site I used to help create the plots. It is a great resource!
@@ -263,4 +265,16 @@ To circumvent this problem we could do the following operation:
 filter(gapminder, country == "Rwanda" | country == "Afghanistan")
 ```
 
+Or we can do the following:
+
+```{r}
+RandA = filter(gapminder, country %in% c("Rwanda", "Afghanistan"))
+
+RandA %>% 
+  knitr::kable()
+```
+
+
 I hope you enjoyed going through my homework assignment!
+
+
